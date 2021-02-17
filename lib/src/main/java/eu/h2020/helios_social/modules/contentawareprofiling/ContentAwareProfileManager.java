@@ -63,16 +63,18 @@ public class ContentAwareProfileManager {
      * and the class of the profile you want to be calculated
      *
      * @param profileClass ContentAwareProfile class
-     * @param images collection of images
+     * @param images       collection of images
      * @return the calculated content aware profile
      */
     public <ContentAwareProfileClass extends ContentAwareProfile> ContentAwareProfileClass updateOrCreateProfile(Class<ContentAwareProfileClass> profileClass, ArrayList<Image> images) {
         ContentAwareProfileMiner miner = createMiner(profileClass);
-        return (ContentAwareProfileClass) miner.calculateContentAwareProfile(images);
+        miner.calculateContentAwareProfile(images);
+        return (ContentAwareProfileClass) miner.getProfile();
     }
 
     /**
      * Constructs a miner for the given ContentAwareProfile class
+     *
      * @param profileClass
      * @return a ContentAwareProfileMiner
      */
@@ -98,6 +100,7 @@ public class ContentAwareProfileManager {
 
     /**
      * a new miner mapped to a new ContentAwareProfile is added to the manager
+     *
      * @param profileClass
      * @param minerClass
      */
@@ -110,15 +113,14 @@ public class ContentAwareProfileManager {
      * Calculates the matching score between the two given content aware profiles
      *
      * @param profile1
-     *
      * @param profile2
      * @return cosine simimarity of the two given profiles
      */
     public <Profile extends ContentAwareProfile> double getMatchingScore(Profile profile1,
                                                                          Profile profile2) {
-        if (profile1.getModelData().getRawProfile().size() > 0 && profile2.getModelData().getRawProfile().size() > 0) {
-            return cosineSimilarity(profile1.getModelData().getRawProfile(),
-                    profile2.getModelData().getRawProfile());
+        if (profile1.getRawProfile().size() > 0 && profile2.getRawProfile().size() > 0) {
+            return cosineSimilarity(profile1.getRawProfile(),
+                    profile2.getRawProfile());
         } else {
             throw new IllegalArgumentException("Given profiles need to be instances of the same " +
                     "class");

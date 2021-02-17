@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import eu.h2020.helios_social.core.contextualegonetwork.ContextualEgoNetwork;
 import eu.h2020.helios_social.modules.contentawareprofiling.Image;
+import eu.h2020.helios_social.modules.contentawareprofiling.context.SpatioTemporalContext;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.ContentAwareProfile;
 
 /**
@@ -22,8 +23,8 @@ public abstract class ContentAwareProfileMiner {
 
     /**
      * @param assetManager The android asset manager.
-     * @param ctx The android context.
-     * @param egoNetwork The egoNetwork provided from the CEN library.
+     * @param ctx          The android context.
+     * @param egoNetwork   The egoNetwork provided from the CEN library.
      */
     public ContentAwareProfileMiner(AssetManager assetManager, Context ctx, ContextualEgoNetwork egoNetwork) {
         this.assetManager = assetManager;
@@ -31,5 +32,9 @@ public abstract class ContentAwareProfileMiner {
         this.egoNetwork = egoNetwork;
     }
 
-    public abstract ContentAwareProfile calculateContentAwareProfile(ArrayList<Image> images);
+    public abstract void calculateContentAwareProfile(ArrayList<Image> images);
+
+    public abstract ContentAwareProfile getProfile();
+
+    public abstract ContentAwareProfile getProfile(SpatioTemporalContext context);
 }

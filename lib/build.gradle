@@ -41,7 +41,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation 'com.github.helios-h2020:h.core-SocialEgoNetwork:1.0.3'
+    implementation 'eu.h2020.helios_social.core.contextualegonetwork:contextualegonetwork:1.0.20'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'

@@ -22,6 +22,7 @@ import eu.h2020.helios_social.core.contextualegonetwork.Utils;
 import eu.h2020.helios_social.core.contextualegonetwork.listeners.CreationListener;
 import eu.h2020.helios_social.core.contextualegonetwork.listeners.LoggingListener;
 import eu.h2020.helios_social.core.contextualegonetwork.listeners.RecoveryListener;
+import eu.h2020.helios_social.core.contextualegonetwork.storage.LegacyStorage;
 
 public class TestUtils {
 
@@ -79,11 +80,9 @@ public class TestUtils {
         if (ego.exists()) {
             deleteFolder(ego);
         }
-        ContextualEgoNetwork egoNetwork =
-                ContextualEgoNetwork.createOrLoad(
-                        appContext.getFilesDir().getPath().toString() + File.separator + "tests" +
-                                File.separator, "ego", null
-                );
+        ContextualEgoNetwork egoNetwork = ContextualEgoNetwork.createOrLoad(
+                new LegacyStorage(appContext.getFilesDir().getPath().toString() + File.separator + "tests" +
+                        File.separator), "ego", "null");
 
 
         egoNetwork.addListener(

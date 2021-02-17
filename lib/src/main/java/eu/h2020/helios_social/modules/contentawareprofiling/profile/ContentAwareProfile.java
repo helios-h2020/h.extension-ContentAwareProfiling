@@ -1,26 +1,25 @@
 package eu.h2020.helios_social.modules.contentawareprofiling.profile;
 
-import eu.h2020.helios_social.modules.contentawareprofiling.data.ModelData;
+import java.util.ArrayList;
 
 /**
  * This class represents the user's content aware profile.
  */
 public abstract class ContentAwareProfile {
 
-    protected ModelData modelData;
+    ArrayList<Float> rawProfile;
 
     public ContentAwareProfile() {
     }
 
-    /**
-     * @param modelData The profile's model data.
-     */
-    public ContentAwareProfile(ModelData modelData) {
-        this.modelData = modelData;
+    public ContentAwareProfile setRawProfile(ArrayList<Float> rawProfile) {
+        this.rawProfile = rawProfile;
+        return this;
     }
 
-    public ModelData getModelData() {
-        return modelData;
+    public ArrayList<Float> getRawProfile() {
+        return rawProfile;
     }
+
 }
 

@@ -14,8 +14,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import eu.h2020.helios_social.core.contextualegonetwork.ContextualEgoNetwork;
+import eu.h2020.helios_social.core.contextualegonetwork.Storage;
 import eu.h2020.helios_social.modules.contentawareprofiling.context.SpatioTemporalContext;
+import eu.h2020.helios_social.modules.contentawareprofiling.data.CNNModelData;
 import eu.h2020.helios_social.modules.contentawareprofiling.data.DMLModelData;
+import eu.h2020.helios_social.modules.contentawareprofiling.model.DMLModel;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.ContentAwareProfile;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.DMLProfile;
 
@@ -49,10 +52,10 @@ public class DMLInstrumentedTest {
         ContentAwareProfile profile = contentAwareProfileManager.updateOrCreateProfile(
                 DMLProfile.class, images);
 
-        DMLModelData perImageOutput = (DMLModelData) ((DMLProfile) profile).getModelData();
+        DMLModelData perImageOutput = loadModelData(egoNetwork);
         ArrayList<ArrayList<Float>> data = perImageOutput.getModelOutputData();
 
-        double[] rawProfile = ((DMLProfile) profile).getProfile()
+        double[] rawProfile = ((DMLProfile) profile).getRawProfile()
                 .stream()
                 .mapToDouble(f -> f != null ? f : Float.NaN)
                 .toArray();
@@ -70,5 +73,22 @@ public class DMLInstrumentedTest {
         egoNetwork.save();
 
         assertArrayEquals(expectedProfile, rawProfile, eps);
+    }
+
+    private DMLModelData loadModelData(ContextualEgoNetwork egoNetwork) {
+        Storage egoStorage = egoNetwork.getSerializer().getStorage();
+        DMLModelData modelData;
+        if (egoStorage.fileExists("eu.h2020.helios_social.modules.contentawareprofiling.miners.DMLProfileMiner")) {
+            try {
+                String stringModelData = egoStorage.loadFromFile("eu.h2020.helios_social.modules.contentawareprofiling.miners.DMLProfileMiner");
+                modelData = (DMLModelData) egoNetwork.getSerializer().deserializeFromString(stringModelData);
+            } catch (Exception e) {
+                e.printStackTrace();
+                modelData = new DMLModelData();
+            }
+        } else {
+            modelData = new DMLModelData();
+        }
+        return modelData;
     }
 }

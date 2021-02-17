@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import eu.h2020.helios_social.core.contextualegonetwork.ContextualEgoNetwork;
+import eu.h2020.helios_social.core.contextualegonetwork.Storage;
 import eu.h2020.helios_social.modules.contentawareprofiling.data.CNNModelData;
 import eu.h2020.helios_social.modules.contentawareprofiling.interestcategories.InterestCategoriesHierarchy;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.ModelType;
@@ -54,7 +55,9 @@ public class FineClassifierInstrumentedTest {
                 "/expected-test-results/expected_test_fine_profile.bin", InterestCategoriesHierarchy.fineCategories.size());
         float eps = (float) 0.1;
 
-        double[] profile09 = ((CNNModelData) ((FineInterestsProfile) profile).getModelData()).getRawProfile(0.9f, ModelType.FINE)
+        CNNModelData modelData = loadModelData(egoNetwork);
+
+        double[] profile09 = modelData.getRawProfile(0.9f, ModelType.FINE)
                 .stream()
                 .mapToDouble(f -> f != null ? f : Float.NaN)
                 .toArray();
@@ -63,7 +66,7 @@ public class FineClassifierInstrumentedTest {
                 .mapToDouble(f -> f != null ? f : Float.NaN)
                 .toArray();
 
-        double[] profile05 = ((CNNModelData) ((FineInterestsProfile) profile).getModelData()).getRawProfile(0.5f, ModelType.FINE)
+        double[] profile05 = modelData.getRawProfile(0.5f, ModelType.FINE)
                 .stream()
                 .mapToDouble(f -> f != null ? f : Float.NaN)
                 .toArray();
@@ -72,7 +75,7 @@ public class FineClassifierInstrumentedTest {
                 .mapToDouble(f -> f != null ? f : Float.NaN)
                 .toArray();
 
-        double[] profile03 = ((CNNModelData) ((FineInterestsProfile) profile).getModelData()).getRawProfile(0.3f, ModelType.FINE)
+        double[] profile03 = modelData.getRawProfile(0.3f, ModelType.FINE)
                 .stream()
                 .mapToDouble(f -> f != null ? f : Float.NaN)
                 .toArray();
@@ -91,5 +94,22 @@ public class FineClassifierInstrumentedTest {
     public Bitmap readImageFileToBitmap(String imageFile) {
         InputStream inputStream = getClass().getResourceAsStream(imageFile);
         return BitmapFactory.decodeStream(inputStream);
+    }
+
+    private CNNModelData loadModelData(ContextualEgoNetwork egoNetwork) {
+        Storage egoStorage = egoNetwork.getSerializer().getStorage();
+        CNNModelData modelData;
+        if (egoStorage.fileExists("eu.h2020.helios_social.modules.contentawareprofiling.miners.FineInterestProfileMiner")) {
+            try {
+                String stringModelData = egoStorage.loadFromFile("eu.h2020.helios_social.modules.contentawareprofiling.miners.FineInterestProfileMiner");
+                modelData = (CNNModelData) egoNetwork.getSerializer().deserializeFromString(stringModelData);
+            } catch (Exception e) {
+                e.printStackTrace();
+                modelData = new CNNModelData();
+            }
+        } else {
+            modelData = new CNNModelData();
+        }
+        return modelData;
     }
 }
