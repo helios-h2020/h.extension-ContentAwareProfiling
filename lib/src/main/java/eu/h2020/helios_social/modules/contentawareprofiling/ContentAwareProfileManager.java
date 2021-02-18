@@ -79,10 +79,10 @@ public class ContentAwareProfileManager {
      * @return a ContentAwareProfileMiner
      */
     private ContentAwareProfileMiner createMiner(Class<? extends ContentAwareProfile> profileClass) {
-        if (profileClass.equals(FineInterestsProfile.class)) {
+        if (profileClass.getName().equals(FineInterestsProfile.class.getName())) {
             LOG.info("Creating Fine Interest Profile Miner");
             return new FineInterestProfileMiner(assetManager, ctx, egoNetwork);
-        } else if (profileClass.equals(CoarseInterestProfileMiner.class)) {
+        } else if (profileClass.getName().equals(CoarseInterestsProfile.class.getName())) {
             LOG.info("Creating Fine Interest Profile Miner");
             return new CoarseInterestProfileMiner(assetManager, ctx, egoNetwork);
         } else {
