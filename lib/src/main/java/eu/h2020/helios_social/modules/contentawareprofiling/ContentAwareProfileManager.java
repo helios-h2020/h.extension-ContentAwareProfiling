@@ -80,6 +80,9 @@ public class ContentAwareProfileManager {
      */
     private ContentAwareProfileMiner createMiner(Class<? extends ContentAwareProfile> profileClass) {
         try {
+            FineInterestProfileMiner.class.getDeclaredConstructors();
+            CoarseInterestProfileMiner.class.getDeclaredConstructors();
+            DMLProfileMiner.class.getDeclaredConstructors();
             Constructor<? extends ContentAwareProfileMiner> constructor =
                     Class.forName(miners.get(profileClass).getName())
                             .asSubclass(ContentAwareProfileMiner.class).getDeclaredConstructor(AssetManager.class, Context.class, ContextualEgoNetwork.class);
