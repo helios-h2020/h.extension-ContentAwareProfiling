@@ -79,10 +79,17 @@ public class ContentAwareProfileManager {
      * @return a ContentAwareProfileMiner
      */
     private ContentAwareProfileMiner createMiner(Class<? extends ContentAwareProfile> profileClass) {
-        try {
-            FineInterestProfileMiner.class.getDeclaredConstructors();
-            CoarseInterestProfileMiner.class.getDeclaredConstructors();
-            DMLProfileMiner.class.getDeclaredConstructors();
+        if (profileClass.equals(FineInterestsProfile.class)) {
+            LOG.info("Creating Fine Interest Profile Miner");
+            return new FineInterestProfileMiner(assetManager, ctx, egoNetwork);
+        } else if (profileClass.equals(CoarseInterestProfileMiner.class)) {
+            LOG.info("Creating Fine Interest Profile Miner");
+            return new CoarseInterestProfileMiner(assetManager, ctx, egoNetwork);
+        } else {
+            LOG.info("Creating DML Profile Miner");
+            return new DMLProfileMiner(assetManager, ctx, egoNetwork);
+        }
+        /*try {
             Constructor<? extends ContentAwareProfileMiner> constructor =
                     Class.forName(miners.get(profileClass).getName())
                             .asSubclass(ContentAwareProfileMiner.class).getDeclaredConstructor(AssetManager.class, Context.class, ContextualEgoNetwork.class);
@@ -98,7 +105,7 @@ public class ContentAwareProfileManager {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        return null;
+        return null;*/
     }
 
     /**
