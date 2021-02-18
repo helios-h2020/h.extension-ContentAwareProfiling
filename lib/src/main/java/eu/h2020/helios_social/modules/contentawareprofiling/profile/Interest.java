@@ -14,6 +14,9 @@ public class Interest implements Comparable {
     private String name;
     private Double weight;
 
+    public Interest() {
+    }
+
     /**
      * Creates an interest object
      *
