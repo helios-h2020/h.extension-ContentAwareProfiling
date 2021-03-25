@@ -9,6 +9,9 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,9 +19,11 @@ import eu.h2020.helios_social.core.contextualegonetwork.ContextualEgoNetwork;
 import eu.h2020.helios_social.core.contextualegonetwork.Storage;
 import eu.h2020.helios_social.modules.contentawareprofiling.data.CNNModelData;
 import eu.h2020.helios_social.modules.contentawareprofiling.interestcategories.InterestCategoriesHierarchy;
+import eu.h2020.helios_social.modules.contentawareprofiling.miners.CoarseInterestProfileMiner;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.ModelType;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.CoarseInterestsProfile;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.ContentAwareProfile;
+import eu.h2020.helios_social.modules.contentawareprofiling.profile.FineInterestsProfile;
 
 import static java.lang.System.currentTimeMillis;
 import static org.junit.Assert.assertArrayEquals;
@@ -30,6 +35,24 @@ public class CoarseClassifierInstrumentedTest {
     public void isCoarseClassifierCorrect() throws IOException {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         ContextualEgoNetwork egoNetwork = TestUtils.initializeCEN(appContext);
+
+        File ego = new File(appContext.getFilesDir().getPath().toString() + File.separator + "tests");
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(ego));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            //You'll need to add proper error handling here
+        }
+        System.out.println("NUM OF INTERESTS: " + egoNetwork.getEgo().getOrCreateInstance(CoarseInterestsProfile.class).getInterests().size());
 
         ArrayList<Image> images = new ArrayList<>();
 
@@ -89,6 +112,7 @@ public class CoarseClassifierInstrumentedTest {
 
 
         egoNetwork.save();
+        egoNetwork.getSerializer().getStorage();
 
         assertArrayEquals(expected09, profile09, eps);
         assertArrayEquals(expected05, profile05, eps);

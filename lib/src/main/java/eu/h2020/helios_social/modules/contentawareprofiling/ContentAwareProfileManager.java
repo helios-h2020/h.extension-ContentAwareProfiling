@@ -89,6 +89,7 @@ public class ContentAwareProfileManager {
             LOG.info("Creating DML Profile Miner");
             return new DMLProfileMiner(assetManager, ctx, egoNetwork);
         }
+
         /*try {
             Constructor<? extends ContentAwareProfileMiner> constructor =
                     Class.forName(miners.get(profileClass).getName())

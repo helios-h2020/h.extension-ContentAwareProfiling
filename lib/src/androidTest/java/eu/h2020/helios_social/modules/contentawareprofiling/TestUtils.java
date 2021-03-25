@@ -77,9 +77,9 @@ public class TestUtils {
 
         File ego = new File(appContext.getFilesDir().getPath().toString() + File.separator + "tests");
 
-        if (ego.exists()) {
+        /*if (ego.exists()) {
             deleteFolder(ego);
-        }
+        }*/
         ContextualEgoNetwork egoNetwork = ContextualEgoNetwork.createOrLoad(
                 new LegacyStorage(appContext.getFilesDir().getPath().toString() + File.separator + "tests" +
                         File.separator), "ego", "null");
