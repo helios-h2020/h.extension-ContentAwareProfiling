@@ -56,34 +56,15 @@ import eu.h2020.helios_social.modules.contentawareprofiling.profile.InterestProf
 public class GranularInterestProfile extends InterestProfile {
 
     public GranularInterestProfile() {
-        super(new CNNModelData());
-  }
-
-    public GranularInterestProfile(CNNModelData modelData) {
-        super(modelData);
-  }
-
-    @Override
-    public ArrayList<Interest> getInterestProfile() {
-        //RETURN ARRAY OF INTERESTS
-  }
-
-    @Override
-    public ArrayList<Interest> getInterestProfile(float threshold) {
-        //RETURN ARRAY OF INTERESTS
+        interests = new ArrayList<>();
     }
 
-    @Override
-    public ArrayList<Interest> getInterestProfile(SpatioTemporalContext context){
-        //RETURN ARRAY FOR THE GIVEN SpatioTemporalContext
-  }
+    public GranularInterestProfile(ArrayList<Interest> interests) {
+        super(interests);
+    }
+}
 
-    @Override
-    public ArrayList<Interest> getInterestProfile(SpatioTemporalContext context, float threshold) {
-        //RETURN ARRAY FOR THE GIVEN THRESHOLD
-  }
-
-    public class GranularModel extends AbstractModel {
+public class GranularModel extends AbstractModel {
 
     /**
     * @param ctx The Android context.
@@ -123,8 +104,18 @@ public class GranularInterestProfile extends InterestProfile {
         public GranularInterestProfile calculateContentAwareProfile(ArrayList<Image> images) {
             //calculate Granular Interest Profile from the given collection of images
         }
+
+        @Override
+        public GranularInterestProfile getProfile() {
+            //returns instance of GranularInterestProfile as stored in the contextual ego network
+        }
+
+        @Override
+        public GranularInterestProfile getProfile(SpatioTemporalContext context) {
+           //returns the profile as calculated based on the given SpatioTemporal Context
+        }
+
     }
-}
 ```
 After, you have created your model, miner and profile, you need to add the profile and miner to the Content Aware Profile Manager as follows:
 
