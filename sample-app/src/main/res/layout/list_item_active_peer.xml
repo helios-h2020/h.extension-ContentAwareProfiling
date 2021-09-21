@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <FrameLayout
+        android:id="@+id/avatarFrameView"
+        android:layout_width="@dimen/listitem_picture_frame_size"
+        android:layout_height="@dimen/listitem_picture_frame_size"
+        android:layout_margin="@dimen/listitem_horizontal_margin"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatarView"
+            style="@style/PeerAvatar"
+            android:layout_width="@dimen/listitem_picture_size"
+            android:layout_height="@dimen/listitem_picture_size"
+            android:layout_gravity="bottom|left|start"
+            android:visibility="visible"
+            tools:src="@drawable/ic_person" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/listitem_vertical_margin"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toTopOf="@+id/timestamp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/avatarFrameView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.187"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="username" />
+
+    <TextView
+        android:id="@+id/peer_id"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/listitem_vertical_margin"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:singleLine="true"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="@dimen/text_size_tiny"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/avatarFrameView"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintVertical_bias="0.235"
+        tools:text="peer-id" />
+
+    <TextView
+        android:id="@+id/matching_score"
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/listitem_vertical_margin"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:singleLine="true"
+        android:textColor="@color/colorScore"
+        android:textStyle="bold|italic"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/avatarFrameView"
+        app:layout_constraintTop_toBottomOf="@+id/peer_id"
+        app:layout_constraintVertical_bias="0.235"
+        tools:text="matching score: 100%" />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="4dp"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/avatarFrameView"
+        app:layout_constraintTop_toBottomOf="@+id/matching_score"
+        tools:text="Timestamp" />
+
+    <Button
+        android:id="@+id/btn_compare"
+        android:layout_width="95dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:text="@string/compare"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/matching_score" />
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider.PeerList"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/peer_id" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

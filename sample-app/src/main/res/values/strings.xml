@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Content Aware Profiling Demo App</string>
+    <!--Profiling Options -->
+    <string name="COARSE">Coarse Interest Profile</string>
+    <string name="FINE">Fine Interest Profile</string>
+
+    <!--Profiling strings -->
+    <string name="profiling_title">Profiler</string>
+    <string name="profiling_desc">Analyzing Collection of Images from your device</string>
+    <string name="cancel">cancel</string>
+    <string name="profiling_info">Content Aware Profiling Module runs as a foreground service when the user charging its phone. The profiler processes images in batches of 500 and intermediate calculated results can be shown below before completion. The intermediate and final results are stored in the contextual ego network. Select the algorithm you want to run and request the profiler to start the process. </string>
+
+    <!-- Profiling permissions explaining to user why the permission is needed -->
+    <string name="profiling_storage_permissions">We need access to read and write to external storage to run the Profiling Module.
+                            The process is run on device and all results are stored locally in the internal memory.</string>
+
+    <string name="profiling_metadata_permissions">We need access to read and metadata from picture for optimizing the results of the Profiling Module.
+                            The process is run on device and all results are stored locally in the internal memory.</string>
+    <string name="compare">compare</string>
+
+    <string name="active_peers_title">Active Peers on Network</string>
+    <string name="top_images_description_text">The top 3 images with the highest contribution to the score of\t</string>
+</resources>
