@@ -5,22 +5,21 @@ import android.content.res.AssetManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import eu.h2020.helios_social.core.contextualegonetwork.ContextualEgoNetwork;
-import eu.h2020.helios_social.core.contextualegonetwork.Serializer;
-import eu.h2020.helios_social.core.contextualegonetwork.Serializer.Serialization;
 import eu.h2020.helios_social.core.contextualegonetwork.Storage;
 import eu.h2020.helios_social.modules.contentawareprofiling.Image;
 import eu.h2020.helios_social.modules.contentawareprofiling.context.SpatioTemporalContext;
 import eu.h2020.helios_social.modules.contentawareprofiling.data.CNNModelData;
-import eu.h2020.helios_social.modules.contentawareprofiling.data.ModelData;
 import eu.h2020.helios_social.modules.contentawareprofiling.interestcategories.InterestCategoriesHierarchy;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.CoarseInterestsModel;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.ModelType;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.ModelUtils;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.CoarseInterestsProfile;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.ContentAwareProfile;
+import eu.h2020.helios_social.modules.contentawareprofiling.profile.ImageInterest;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.Interest;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.InterestProfile;
 import eu.h2020.helios_social.modules.contentawareprofiling.utils.ProfileUtils;
@@ -77,13 +76,19 @@ public class CoarseInterestProfileMiner extends ContentAwareProfileMiner {
             }
             LOG.info("Coarse Profile based on " + (modelData.getImages().size() + images.size()) + " images has been calculated and saved.");
         }
+        // EDITED (DETAILED PROFILE)
+        HashMap<Interest, ArrayList<ImageInterest>> detailedInterests = ProfileUtils.transformToDetailedInterestProfile(
+                getInterestProfile(modelData.getRawProfile()),
+                modelData.getModelOutputData(), modelData.getImages());
 
         egoNetwork.getEgo()
                 .getOrCreateInstance(CoarseInterestsProfile.class)
                 .setInterests(getInterestProfile(modelData.getRawProfile()))
+                .setDetailedInterests(detailedInterests)
                 .setRawProfile(modelData.getRawProfile());
         egoNetwork.save();
     }
+
 
     @Override
     public ContentAwareProfile getProfile() {

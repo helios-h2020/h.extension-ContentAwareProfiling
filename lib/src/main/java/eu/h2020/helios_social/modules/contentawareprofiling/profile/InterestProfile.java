@@ -1,13 +1,13 @@
 package eu.h2020.helios_social.modules.contentawareprofiling.profile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import eu.h2020.helios_social.modules.contentawareprofiling.context.SpatioTemporalContext;
-import eu.h2020.helios_social.modules.contentawareprofiling.data.CNNModelData;
-
+// EDITED (DETAILED PROFILE)
 public class InterestProfile extends ContentAwareProfile {
 
     protected ArrayList<Interest> interests;
+    private HashMap<Interest, ArrayList<ImageInterest>> detailedInterests;
 
     public InterestProfile() {
     }
@@ -21,8 +21,17 @@ public class InterestProfile extends ContentAwareProfile {
         return this;
     }
 
+    public InterestProfile setDetailedInterests(HashMap<Interest, ArrayList<ImageInterest>> detailedInterests) {
+        this.detailedInterests = detailedInterests;
+        return this;
+    }
+
     public ArrayList<Interest> getInterests() {
         return interests;
+    }
+
+    public HashMap<Interest, ArrayList<ImageInterest>> getDetailedInterests() {
+        return detailedInterests;
     }
 
 

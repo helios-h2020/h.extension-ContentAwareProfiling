@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import eu.h2020.helios_social.core.contextualegonetwork.ContextualEgoNetwork;
@@ -16,8 +17,10 @@ import eu.h2020.helios_social.modules.contentawareprofiling.interestcategories.I
 import eu.h2020.helios_social.modules.contentawareprofiling.model.FineInterestsModel;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.ModelType;
 import eu.h2020.helios_social.modules.contentawareprofiling.model.ModelUtils;
+import eu.h2020.helios_social.modules.contentawareprofiling.profile.CoarseInterestsProfile;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.ContentAwareProfile;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.FineInterestsProfile;
+import eu.h2020.helios_social.modules.contentawareprofiling.profile.ImageInterest;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.Interest;
 import eu.h2020.helios_social.modules.contentawareprofiling.utils.ProfileUtils;
 
@@ -74,10 +77,15 @@ public class FineInterestProfileMiner extends ContentAwareProfileMiner {
             }
             LOG.info("Fine Profile based on " + (modelData.getImages().size() + images.size()) + " images has calculated and saved.");
         }
+        // EDITED (DETAILED PROFILE)
+        HashMap<Interest, ArrayList<ImageInterest>> detailedInterests = ProfileUtils.transformToDetailedInterestProfile(
+                getInterestProfile(modelData.getRawProfile()),
+                modelData.getModelOutputData(), modelData.getImages());
 
         egoNetwork.getEgo()
                 .getOrCreateInstance(FineInterestsProfile.class)
                 .setInterests(getInterestProfile(modelData.getRawProfile()))
+                .setDetailedInterests(detailedInterests)
                 .setRawProfile(modelData.getRawProfile());
         egoNetwork.save();
     }

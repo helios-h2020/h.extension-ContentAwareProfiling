@@ -1,8 +1,12 @@
 package eu.h2020.helios_social.modules.contentawareprofiling.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
+import eu.h2020.helios_social.modules.contentawareprofiling.Image;
 import eu.h2020.helios_social.modules.contentawareprofiling.interestcategories.InterestCategories;
+import eu.h2020.helios_social.modules.contentawareprofiling.profile.ImageInterest;
 import eu.h2020.helios_social.modules.contentawareprofiling.profile.Interest;
 
 public class ProfileUtils {
@@ -16,6 +20,52 @@ public class ProfileUtils {
             interestProfile.add(interest);
         }
         return interestProfile;
+    }
+
+    // EDITED (DETAILED PROFILE)
+    public static HashMap<Interest, ArrayList<ImageInterest>> transformToDetailedInterestProfile(
+            ArrayList<Interest> interestProfile, ArrayList<ArrayList<Float>> CNNOutMatrix,
+            ArrayList<Image> images) {
+        // hashmap contains categories (and their weights) as keys and images (and their weights) as
+        // values.
+        HashMap<Interest, ArrayList<ImageInterest>> detailedInterestProfile = new HashMap<>();
+        // boolean to know if we have to filter the image set or not.
+        Boolean keepTopXImages = false;
+        int topXImages = 3;
+        if (images.size()>topXImages){
+            keepTopXImages = true;
+        }
+        // for each category
+        for (int i = 0; i < interestProfile.size(); i++) {
+            // create an image list
+            ArrayList<ImageInterest> imageInterests = new ArrayList<>();
+            // for each image
+            for (int j = 0; j < images.size(); j++) {
+                Image image = images.get(j);
+                // cnn output value
+                float weight = CNNOutMatrix.get(j).get(i);
+                // image and its weight
+                ImageInterest imageInterest = new ImageInterest(image.getUri(), (double) weight);
+                // add to the list of images
+                imageInterests.add(imageInterest);
+            }
+            // sort images
+            Collections.sort(imageInterests);
+            ArrayList<ImageInterest> topImageInterests = new ArrayList<>();
+            if (keepTopXImages) {
+                // select top X images
+                for (int j = 0; j < topXImages; j++) {
+                    topImageInterests.add(imageInterests.get(j));
+                }
+                // put top X images
+                detailedInterestProfile.put(interestProfile.get(i),topImageInterests);
+            } else {
+                // put them all
+                detailedInterestProfile.put(interestProfile.get(i),imageInterests);
+
+            }
+        }
+        return detailedInterestProfile;
     }
 
 
