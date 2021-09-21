@@ -99,7 +99,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startService(new Intent(this, CommunicationManager.class));
+        // communication manager is not needed at this moment
+        // startService(new Intent(this, CommunicationManager.class));
 
         scheduleJob = findViewById(R.id.schedule_profiler);
         results_title = findViewById(R.id.results_title);
